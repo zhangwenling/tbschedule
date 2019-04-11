@@ -91,7 +91,7 @@ tbschedule需要依赖Zookeeper做分布式调度，所以需要在配置中指�
         <property name="zkConfig">
             <map>
                 <entry key="zkConnectString" value="localhost:2181"/>
-                <entry key="rootPath" value="/schedule/demo"/>
+                <entry key="rootPath" value="/schedule/test"/>
                 <entry key="zkSessionTimeout" value="60000"/>
                 <entry key="userName" value="admin"/>
                 <entry key="password" value="admin"/>

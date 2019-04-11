@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration debug="false">
-    <property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss} %level %logger{36} - %msg%n"/>
+    <property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %contextName [%thread] %mdc{sessionId} %-5level %logger{50} [%file:%line] - %msg%n"/>
     <property name="logdir" value="log"/>
     <property name="layoutClass" value="ch.qos.logback.classic.PatternLayout"/>
     <property name="append" value="true"/>

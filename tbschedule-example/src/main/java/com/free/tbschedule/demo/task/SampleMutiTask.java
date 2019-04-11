@@ -36,9 +36,11 @@ public class SampleMutiTask implements IScheduleTaskDealMulti<User> {
     @Override
     public boolean execute(User[] tasks, String ownSign) throws Exception {
         try {
+            log.info("处理任务数：{}", tasks.length);
             for (User task : tasks) {
 
-                log.info("开始处理用户：{}", task);
+                log.info("开始处理用户200ms：{}", task);
+                Thread.sleep(2000);
                 task.setAge(task.getAge() + 1);
                 userService.update(task);
 

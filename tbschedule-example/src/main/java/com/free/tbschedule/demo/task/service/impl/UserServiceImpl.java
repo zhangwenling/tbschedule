@@ -2,55 +2,43 @@ package com.free.tbschedule.demo.task.service.impl;
 
 import com.free.tbschedule.demo.task.dto.User;
 import com.free.tbschedule.demo.task.service.UserService;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sun.rmi.runtime.Log;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers(int mod, List<Integer> remainder, int topNum) {
-        return UserDao.getAllUsers().stream()
-            .filter(user -> remainder.contains(user.getId() % mod))
-            .limit(topNum)
-            .collect(Collectors.toList());
+        return UserDao.getAllUsers();
     }
 
     @Override
     public int update(User task) {
-        List<User> users = UserDao.getAllUsers().stream()
-            .filter(user -> user.getId() == task.getId())
-            .collect(Collectors.toList());
-
-        users.forEach(user -> {
-            user.setAge(task.getAge());
-            user.setName(task.getName());
-        });
-        return users.size();
+        return 1;
     }
 
     static class UserDao {
 
-        private static ArrayList<User> users;
+        private static AtomicInteger idCount = new AtomicInteger(0);
 
         /**
          * 模拟持久层，从数据库取数据
          */
-        private static List<User> getAllUsers() {
-            if (null == users) {
-                users = new ArrayList<>(10);
-                users.add(new User(1, "LiLi", 43));
-                users.add(new User(2, "WangYun", 54));
-                users.add(new User(3, "LiuSiSi", 89));
-                users.add(new User(4, "ZhangJia", 24));
-                users.add(new User(5, "ChenXiao", 25));
-                users.add(new User(6, "WangHai", 65));
-                users.add(new User(7, "FengNian", 45));
-                users.add(new User(8, "XiaoXiao", 85));
-                users.add(new User(9, "YingMo", 36));
-                users.add(new User(10, "KaEr", 98));
+        private synchronized static List<User> getAllUsers() {
+            ArrayList<User> users = new ArrayList<>(10);
+            for (int i = 0; i < 10; i++) {
+                users.add(new User(idCount.incrementAndGet(), "LiLi", 43));
+                log.info("idCount====》》{}", idCount.get());
             }
             return users;
         }
